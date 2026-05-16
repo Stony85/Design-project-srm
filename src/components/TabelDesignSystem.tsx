@@ -1,485 +1,508 @@
 import type { Project } from "@/lib/projects";
+import {
+  // type-of-field icons
+  LetterLinear,
+  DocumentTextLinear,
+  DocumentLinear,
+  HashtagLinear,
+  RubleLinear,
+  ChartSquareLinear,
+  CheckSquareLinear,
+  StarLinear,
+  RadioLinear,
+  ChecklistLinear,
+  TagLinear,
+  PulseLinear,
+  CalendarLinear,
+  CalendarMinimalisticLinear,
+  ClockCircleLinear,
+  ClockSquareLinear,
+  UserLinear,
+  UsersGroupRoundedLinear,
+  PhoneLinear,
+  PassportLinear,
+  BuildingsLinear,
+  UserIdLinear,
+  MapPointLinear,
+  LinkLinear,
+  PaperclipLinear,
+  CalculatorMinimalisticLinear,
+  MagniferLinear,
+  ChartLinear,
+  HashtagCircleLinear,
+  AltArrowUpLinear,
+  GlobalLinear,
+  MailboxLinear,
+  LinkRoundLinear,
+  MagicStick3Linear,
+  RefreshLinear,
+  UserPlusLinear,
+  UserCircleLinear,
+  DatabaseLinear,
+  // actors
+  SettingsLinear,
+  PlugCircleLinear,
+  ServerLinear,
+  CPUBoltLinear,
+  // approval states
+  MinusCircleLinear,
+  HourglassLinear,
+  CheckCircleLinear,
+  CloseCircleLinear,
+  AltArrowLeftLinear,
+  ForbiddenCircleLinear,
+  // sensitivity
+  LockLinear,
+  LockKeyholeLinear,
+  EyeLinear,
+  EyeClosedLinear,
+  ForbiddenLinear,
+  // module/nav
+  ChatRoundDotsLinear,
+  InboxLinear,
+  DocumentsLinear,
+  BellLinear,
+} from "solar-icon-set";
 
-/* ─────────────────────────────────────────────────────────────
-   ДАННЫЕ ДИЗАЙН-СИСТЕМЫ
-   ───────────────────────────────────────────────────────────── */
+type IconCmp = (props: { size?: number; color?: string }) => React.JSX.Element;
 
-const COLORS = {
-  neutral: [
-    { name: "Background", hex: "#FAFAFA", token: "--tb-bg" },
-    { name: "Surface", hex: "#FFFFFF", token: "--tb-surface" },
-    { name: "Border", hex: "#E5E7EB", token: "--tb-border" },
-    { name: "Border strong", hex: "#CBD5E1", token: "--tb-border-strong" },
-    { name: "Text primary", hex: "#0F172A", token: "--tb-text" },
-    { name: "Text secondary", hex: "#475569", token: "--tb-text-2" },
-    { name: "Text tertiary", hex: "#94A3B8", token: "--tb-text-3" },
-  ],
-  semantic: [
-    { name: "Primary", hex: "#2563EB", tint: "#DBEAFE", use: "основные действия, ссылки" },
-    { name: "Success", hex: "#16A34A", tint: "#DCFCE7", use: "approve, sync ok" },
-    { name: "Warning", hex: "#D97706", tint: "#FEF3C7", use: "unmask, scheduled, due" },
-    { name: "Danger", hex: "#DC2626", tint: "#FEE2E2", use: "delete, reject" },
-    { name: "Info", hex: "#0EA5E9", tint: "#E0F2FE", use: "sync running, hints" },
-    { name: "AI", hex: "#8B5CF6", tint: "#F3E8FF", use: "AI-generated values only" },
-  ],
-};
+/* ──────────────────────────────────────────────────────────────────────
+   ЦВЕТА
+   ────────────────────────────────────────────────────────────────────── */
 
-const TYPE_GROUPS: {
-  klass: string;
-  klassName: string;
-  types: { icon: string; name: string; desc: string }[];
-}[] = [
+const NEUTRALS = [
+  { name: "Background", hex: "#FAFAFA", text: "#0F172A" },
+  { name: "Surface", hex: "#FFFFFF", text: "#0F172A" },
+  { name: "Border", hex: "#E5E7EB", text: "#0F172A" },
+  { name: "Border strong", hex: "#CBD5E1", text: "#0F172A" },
+  { name: "Text primary", hex: "#0F172A", text: "#FFFFFF" },
+  { name: "Text secondary", hex: "#475569", text: "#FFFFFF" },
+  { name: "Text tertiary", hex: "#94A3B8", text: "#FFFFFF" },
+];
+
+const SEMANTIC = [
+  { name: "Primary", hex: "#2563EB", tint: "#DBEAFE", use: "Основные действия, ссылки, focus" },
+  { name: "Success", hex: "#16A34A", tint: "#DCFCE7", use: "Одобрено, sync ok, success-состояния" },
+  { name: "Warning", hex: "#D97706", tint: "#FEF3C7", use: "Unmask, due, эскалация, scheduled" },
+  { name: "Danger", hex: "#DC2626", tint: "#FEE2E2", use: "Удаление, отклонение, ошибки" },
+  { name: "Info", hex: "#0EA5E9", tint: "#E0F2FE", use: "Sync running, подсказки" },
+  { name: "AI", hex: "#8B5CF6", tint: "#F3E8FF", use: "Только AI-генерация — ничего другого" },
+];
+
+/* ──────────────────────────────────────────────────────────────────────
+   ТИПОГРАФИКА
+   ────────────────────────────────────────────────────────────────────── */
+
+const TYPO = [
+  { name: "Display", size: 32, line: 40, weight: 600, sample: "Дизайн-система" },
+  { name: "Heading 1", size: 24, line: 32, weight: 600, sample: "Согласования и одобрения" },
+  { name: "Heading 2", size: 18, line: 26, weight: 600, sample: "Данные и таблицы" },
+  { name: "Heading 3", size: 15, line: 22, weight: 600, sample: "Поля записи" },
+  { name: "Body", size: 14, line: 20, weight: 400, sample: "Operational workspace для российских команд 10–100 человек." },
+  { name: "Body small", size: 13, line: 18, weight: 400, sample: "Плотность важнее воздуха на основных экранах." },
+  { name: "Caption", size: 12, line: 16, weight: 400, sample: "Скрыто (152-ФЗ) · Синхронизировано 2 мин назад" },
+  { name: "Label", size: 11, line: 14, weight: 500, sample: "ОБНОВЛЕНО · ОТКЛОНЕНО · ОЖИДАЕТ" },
+  { name: "Mono", size: 12, line: 16, weight: 400, sample: "+7 (916) 123-45-67 · 7707083893", mono: true },
+];
+
+/* ──────────────────────────────────────────────────────────────────────
+   ТИПЫ ПОЛЕЙ — 29 типов в 11 классах
+   ────────────────────────────────────────────────────────────────────── */
+
+type FieldType = { Icon: IconCmp; name: string; desc: string };
+const FIELD_GROUPS: { klass: string; title: string; types: FieldType[] }[] = [
   {
     klass: "A",
-    klassName: "Primitive",
+    title: "Primitive",
     types: [
-      { icon: "T", name: "Text", desc: "Строка до 500 симв." },
-      { icon: "¶", name: "Long Text", desc: "Markdown" },
-      { icon: "R", name: "Rich Text", desc: "WYSIWYG" },
-      { icon: "#", name: "Number", desc: "Целое / дробное" },
-      { icon: "₽", name: "Currency", desc: "Multi-currency" },
-      { icon: "%", name: "Percentage", desc: "0–100" },
-      { icon: "☑", name: "Checkbox", desc: "true / false" },
-      { icon: "★", name: "Rating", desc: "1–5 / 1–10" },
+      { Icon: LetterLinear, name: "Text", desc: "Строка до 500 символов" },
+      { Icon: DocumentTextLinear, name: "Long Text", desc: "Markdown без форматирования" },
+      { Icon: DocumentLinear, name: "Rich Text", desc: "WYSIWYG-редактор" },
+      { Icon: HashtagLinear, name: "Number", desc: "Целое или дробное" },
+      { Icon: RubleLinear, name: "Currency", desc: "Multi-currency, ₽/$/€" },
+      { Icon: ChartSquareLinear, name: "Percentage", desc: "Значение 0–100%" },
+      { Icon: CheckSquareLinear, name: "Checkbox", desc: "true / false" },
+      { Icon: StarLinear, name: "Rating", desc: "1–5 или 1–10" },
     ],
   },
   {
     klass: "B",
-    klassName: "Structural",
+    title: "Structural",
     types: [
-      { icon: "◉", name: "Single Select", desc: "Одно из списка" },
-      { icon: "◎", name: "Multi Select", desc: "Несколько из списка" },
-      { icon: "#", name: "Tags", desc: "Свободные теги" },
-      { icon: "●", name: "Status", desc: "FSM с переходами" },
+      { Icon: RadioLinear, name: "Single Select", desc: "Одно из фиксированного списка" },
+      { Icon: ChecklistLinear, name: "Multi Select", desc: "Несколько из списка" },
+      { Icon: TagLinear, name: "Tags", desc: "Свободные ярлыки" },
+      { Icon: PulseLinear, name: "Status", desc: "FSM с цветами и переходами" },
     ],
   },
   {
     klass: "C",
-    klassName: "Date / Time",
+    title: "Date / Time",
     types: [
-      { icon: "D", name: "Date", desc: "ДД.ММ.ГГГГ" },
-      { icon: "Đ", name: "DateTime", desc: "Дата + время + TZ" },
-      { icon: "⏱", name: "Duration", desc: "«2д 3ч 15м»" },
+      { Icon: CalendarLinear, name: "Date", desc: "DD.MM.YYYY" },
+      { Icon: CalendarMinimalisticLinear, name: "DateTime", desc: "С таймзоной" },
+      { Icon: ClockCircleLinear, name: "Duration", desc: "INT64 секунд, «2д 3ч 15м»" },
     ],
   },
   {
     klass: "D",
-    klassName: "Identity",
+    title: "Identity",
     types: [
-      { icon: "U", name: "User", desc: "Avatar + имя" },
-      { icon: "U+", name: "Multi-User", desc: "Группа исполнителей" },
+      { Icon: UserLinear, name: "User", desc: "Один пользователь воркспейса" },
+      { Icon: UsersGroupRoundedLinear, name: "Multi-User", desc: "Несколько пользователей" },
     ],
   },
   {
     klass: "E",
-    klassName: "Russian-specific",
+    title: "Russian-specific",
     types: [
-      { icon: "☎", name: "Phone", desc: "+7 (***) ***-**-90" },
-      { icon: "ИН", name: "ИНН", desc: "10 / 12 цифр" },
-      { icon: "ОГ", name: "ОГРН", desc: "13 / 15 цифр" },
-      { icon: "СН", name: "СНИЛС", desc: "XXX-XXX-XXX YY" },
-      { icon: "@", name: "Address", desc: "ФИАС, нормализация" },
+      { Icon: PhoneLinear, name: "Phone", desc: "Маска +7, sensitive по умолч." },
+      { Icon: PassportLinear, name: "ИНН", desc: "10 или 12 цифр с КС" },
+      { Icon: BuildingsLinear, name: "ОГРН", desc: "13 или 15 цифр" },
+      { Icon: UserIdLinear, name: "СНИЛС", desc: "specially_protected" },
+      { Icon: MapPointLinear, name: "Address", desc: "ФИАС-нормализация" },
     ],
   },
   {
     klass: "F",
-    klassName: "Linkage",
+    title: "Linkage",
     types: [
-      { icon: "↗", name: "Link to Record", desc: "Chip с превью" },
-      { icon: "📎", name: "Attachment", desc: "Файлы + preview" },
+      { Icon: LinkLinear, name: "Link to Record", desc: "Ссылка на другую запись" },
+      { Icon: PaperclipLinear, name: "Attachment", desc: "Файл с превью" },
     ],
   },
   {
     klass: "G",
-    klassName: "Computed",
+    title: "Computed",
     types: [
-      { icon: "ƒ", name: "Formula", desc: "Read-only, expr" },
-      { icon: "↑", name: "Lookup", desc: "Из связи" },
-      { icon: "Σ", name: "Rollup", desc: "Агрегат по связи" },
-      { icon: "n", name: "Count", desc: "Кол-во связей" },
-      { icon: "▲", name: "Counter", desc: "Auto-increment" },
+      { Icon: CalculatorMinimalisticLinear, name: "Formula", desc: "Read-only, ƒ" },
+      { Icon: MagniferLinear, name: "Lookup", desc: "Значение из связанной записи" },
+      { Icon: ChartLinear, name: "Rollup", desc: "Агрегация по связи" },
+      { Icon: HashtagCircleLinear, name: "Count", desc: "Кол-во связанных" },
+      { Icon: AltArrowUpLinear, name: "Counter", desc: "Auto-increment" },
     ],
   },
   {
     klass: "H",
-    klassName: "Geo",
-    types: [{ icon: "◯", name: "Geo-coords", desc: "Точка на карте" }],
+    title: "Geo",
+    types: [{ Icon: GlobalLinear, name: "Geo-coords", desc: "Карта в Record Panel" }],
   },
   {
     klass: "I",
-    klassName: "Communication",
+    title: "Communication",
     types: [
-      { icon: "✉", name: "Email", desc: "Открывает Composer" },
-      { icon: "://", name: "URL", desc: "Кликабельная ссылка" },
+      { Icon: MailboxLinear, name: "Email", desc: "Открывает Composer" },
+      { Icon: LinkRoundLinear, name: "URL", desc: "Внешняя ссылка" },
     ],
   },
   {
     klass: "J",
-    klassName: "AI",
-    types: [{ icon: "✨", name: "AI Field", desc: "+ provenance tooltip" }],
+    title: "AI",
+    types: [{ Icon: MagicStick3Linear, name: "AI Field", desc: "Provenance обязателен" }],
   },
   {
     klass: "K",
-    klassName: "System",
+    title: "System",
     types: [
-      { icon: "+t", name: "Created At", desc: "Read-only" },
-      { icon: "~t", name: "Updated At", desc: "Read-only" },
-      { icon: "+u", name: "Created By", desc: "Actor + тип" },
-      { icon: "~u", name: "Updated By", desc: "Actor + тип" },
-      { icon: "id", name: "Record ID", desc: "Immutable" },
+      { Icon: ClockSquareLinear, name: "Created At", desc: "Read-only" },
+      { Icon: RefreshLinear, name: "Updated At", desc: "Read-only" },
+      { Icon: UserPlusLinear, name: "Created By", desc: "Actor + actor_type" },
+      { Icon: UserCircleLinear, name: "Updated By", desc: "Actor + actor_type" },
+      { Icon: DatabaseLinear, name: "Record ID", desc: "Системный идентификатор" },
     ],
   },
 ];
 
-const ACTORS = [
-  { icon: "👤", label: "User", desc: "Действие человека" },
-  { icon: "⚙", label: "Automation", desc: "Сценарий автоматизации" },
-  { icon: "⚡", label: "Connector", desc: "Маркетплейс-интеграция" },
-  { icon: "✱", label: "System", desc: "Платформа" },
-  { icon: "✦", label: "Agent", desc: "AI-агент (reserved)" },
+/* ──────────────────────────────────────────────────────────────────────
+   ACTORS — кто менял запись
+   ────────────────────────────────────────────────────────────────────── */
+
+const ACTORS: { Icon: IconCmp; name: string; desc: string; color: string; bg: string }[] = [
+  { Icon: UserLinear, name: "User", desc: "Действие пользователя", color: "#475569", bg: "#F1F5F9" },
+  { Icon: SettingsLinear, name: "Automation", desc: "Workspace-автоматизация", color: "#0EA5E9", bg: "#E0F2FE" },
+  { Icon: PlugCircleLinear, name: "Connector", desc: "Маркетплейс-интеграция", color: "#D97706", bg: "#FEF3C7" },
+  { Icon: ServerLinear, name: "System", desc: "Системная операция", color: "#475569", bg: "#F1F5F9" },
+  { Icon: CPUBoltLinear, name: "Agent", desc: "AI-агент (reserved)", color: "#8B5CF6", bg: "#F3E8FF" },
 ];
+
+/* ──────────────────────────────────────────────────────────────────────
+   APPROVAL STATES — 7 состояний _approval_state
+   ────────────────────────────────────────────────────────────────────── */
 
 const APPROVAL_STATES: {
-  key: string;
+  Icon: IconCmp;
+  state: string;
   label: string;
-  symbol: string;
-  fg: string;
+  color: string;
   bg: string;
-  border?: string;
 }[] = [
-  { key: "none", label: "Без согласования", symbol: "—", fg: "#64748B", bg: "#F1F5F9" },
-  { key: "pending", label: "Ожидает", symbol: "○", fg: "#2563EB", bg: "#DBEAFE" },
-  { key: "approved", label: "Согласовано", symbol: "✓", fg: "#16A34A", bg: "#DCFCE7" },
-  { key: "rejected", label: "Отклонено", symbol: "✕", fg: "#DC2626", bg: "#FEE2E2" },
-  { key: "escalated", label: "Эскалация", symbol: "↑", fg: "#D97706", bg: "#FEF3C7" },
-  { key: "withdrawn", label: "Отозвано", symbol: "←", fg: "#64748B", bg: "#F1F5F9" },
-  { key: "expired", label: "Истекло", symbol: "⊘", fg: "#475569", bg: "#E2E8F0", border: "#94A3B8" },
+  { Icon: MinusCircleLinear, state: "none", label: "Нет согласования", color: "#94A3B8", bg: "#F1F5F9" },
+  { Icon: HourglassLinear, state: "pending", label: "Ожидает", color: "#2563EB", bg: "#DBEAFE" },
+  { Icon: CheckCircleLinear, state: "approved", label: "Одобрено", color: "#16A34A", bg: "#DCFCE7" },
+  { Icon: CloseCircleLinear, state: "rejected", label: "Отклонено", color: "#DC2626", bg: "#FEE2E2" },
+  { Icon: AltArrowUpLinear, state: "escalated", label: "Эскалация", color: "#D97706", bg: "#FEF3C7" },
+  { Icon: AltArrowLeftLinear, state: "withdrawn", label: "Отозвано", color: "#64748B", bg: "#F1F5F9" },
+  { Icon: ForbiddenCircleLinear, state: "expired", label: "Истекло", color: "#334155", bg: "#E2E8F0" },
 ];
 
-const TYPO_SCALE = [
-  { name: "display", size: 36, lh: 44, weight: 600, sample: "Дизайн-система Табель" },
-  { name: "h1", size: 28, lh: 36, weight: 600, sample: "Запись клиента" },
-  { name: "h2", size: 22, lh: 30, weight: 600, sample: "Согласования" },
-  { name: "h3", size: 18, lh: 26, weight: 600, sample: "Чувствительные данные" },
-  { name: "body", size: 14, lh: 20, weight: 400, sample: "Иванов И. И., менеджер, +7 (***) ***-**-90" },
-  { name: "body-sm", size: 13, lh: 18, weight: 400, sample: "Согласовано 14.05.2026, 14:23 МСК" },
-  { name: "caption", size: 12, lh: 16, weight: 400, sample: "5 строк выбрано · сумма 124 580,50 ₽" },
-  { name: "label", size: 11, lh: 14, weight: 500, sample: "ИНН · ОГРН · СНИЛС" },
-];
-
-const TOC = [
-  { id: "principles", label: "Принципы" },
-  { id: "colors", label: "Цвета" },
-  { id: "typography", label: "Типографика" },
-  { id: "field-types", label: "Иконки типов полей" },
-  { id: "actors", label: "Авторы изменений" },
-  { id: "approvals", label: "Согласования" },
-  { id: "sensitivity", label: "152-ФЗ и маскирование" },
-  { id: "ai-provenance", label: "AI provenance" },
-  { id: "datagrid", label: "Плотность DataGrid" },
-  { id: "layout", label: "Размеры layout" },
-  { id: "ru-typography", label: "Русская типографика" },
-  { id: "states", label: "Состояния" },
-  { id: "anti", label: "Anti-patterns" },
-];
-
-/* ─────────────────────────────────────────────────────────────
-   ВСПОМОГАТЕЛЬНЫЕ ПРИМИТИВЫ
-   ───────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────────────
+   ОБЩИЕ КОМПОНЕНТЫ
+   ────────────────────────────────────────────────────────────────────── */
 
 function Section({
   id,
+  num,
   title,
+  desc,
   children,
-  intro,
 }: {
   id: string;
+  num: string;
   title: string;
-  intro?: string;
+  desc?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-20 mb-16">
-      <div className="mb-5 pb-3 border-b border-gray-200">
-        <h2 className="text-xl font-semibold tracking-tight text-slate-900">
-          {title}
-        </h2>
-        {intro && (
-          <p className="mt-1.5 text-sm text-slate-600 max-w-2xl">{intro}</p>
-        )}
+    <section id={id} className="scroll-mt-20 border-t border-[#E5E7EB] pt-10 pb-2 first:border-t-0 first:pt-0">
+      <div className="mb-6 flex items-baseline gap-3">
+        <span className="font-mono text-xs text-[#94A3B8] tabular-nums">{num}</span>
+        <h2 className="text-[20px] font-semibold tracking-tight text-[#0F172A]">{title}</h2>
       </div>
+      {desc && <p className="-mt-3 mb-6 max-w-2xl text-[13px] leading-[20px] text-[#475569]">{desc}</p>}
       {children}
     </section>
   );
 }
 
-function TypeChip({ icon }: { icon: string }) {
+function Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className="inline-flex h-6 min-w-6 items-center justify-center rounded px-1 font-mono font-medium bg-slate-100 text-slate-600 border border-slate-200" style={{ fontSize: 11 }}>
-      {icon}
-    </span>
+    <div className={`rounded-lg border border-[#E5E7EB] bg-white ${className}`}>{children}</div>
   );
 }
 
-function StateBadge({ state }: { state: (typeof APPROVAL_STATES)[number] }) {
+function FieldChip({ Icon, name, desc }: FieldType) {
+  return (
+    <div className="flex items-center gap-2.5 rounded-md border border-[#E5E7EB] bg-white px-2.5 py-2 transition-colors hover:border-[#CBD5E1]">
+      <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#F1F5F9] text-[#475569]">
+        <Icon size={16} color="currentColor" />
+      </span>
+      <div className="min-w-0">
+        <div className="text-[13px] font-medium leading-tight text-[#0F172A]">{name}</div>
+        <div className="truncate text-[11px] leading-tight text-[#94A3B8]">{desc}</div>
+      </div>
+    </div>
+  );
+}
+
+function StateBadge({
+  Icon,
+  label,
+  color,
+  bg,
+}: {
+  Icon: IconCmp;
+  label: string;
+  color: string;
+  bg: string;
+}) {
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium"
-      style={{
-        background: state.bg,
-        color: state.fg,
-        border: state.border ? `1px solid ${state.border}` : undefined,
-      }}
+      className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[11px] font-medium leading-none"
+      style={{ background: bg, color }}
     >
-      <span aria-hidden style={{ fontSize: 11, lineHeight: 1 }}>{state.symbol}</span>
-      {state.label}
+      <Icon size={13} color={color} />
+      {label}
     </span>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────
-   ОСНОВНОЙ КОМПОНЕНТ
-   ───────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────────────
+   ГЛАВНЫЙ КОМПОНЕНТ
+   ────────────────────────────────────────────────────────────────────── */
 
 export default function TabelDesignSystem({ project }: { project: Project }) {
   return (
-    <div className="flex-1 bg-neutral-50 text-slate-900">
+    <div className="flex-1 bg-[#FAFAFA] text-[#0F172A]">
       {/* HERO */}
-      <div className="border-b border-gray-200 bg-white">
-        <div className="mx-auto max-w-7xl px-8 py-10">
-          <div className="text-xs font-mono text-slate-400 mb-2">
-            /projects/{project.slug}
+      <div className="border-b border-[#E5E7EB] bg-white">
+        <div className="mx-auto max-w-[1280px] px-8 py-10">
+          <div className="font-mono text-[11px] uppercase tracking-wider text-[#94A3B8]">
+            /projects/{project.slug} · Design system v0.1
           </div>
-          <h1 className="text-3xl font-semibold tracking-tight">
-            {project.title} · Дизайн-система
+          <h1 className="mt-3 text-[32px] font-semibold leading-[40px] tracking-tight">
+            Табель — дизайн-система
           </h1>
-          <p className="mt-3 text-sm text-slate-600 max-w-3xl leading-relaxed">
-            Operational workspace для российских компаний 10–100 человек. Этот
-            документ фиксирует визуальный язык продукта: токены, иконографию,
-            правила работы с чувствительными данными по 152-ФЗ, AI provenance,
-            плотность DataGrid и русские типографические правила. Phase 1,
-            desktop-first, light theme.
+          <p className="mt-3 max-w-3xl text-[14px] leading-[22px] text-[#475569]">
+            Operational workspace для российских компаний 10–100 человек. Excel-плотность с современным
+            визуальным языком, RU-first, 152-ФЗ как видимый слой интерфейса. Документ описывает
+            словарь, который должны разделять дизайн и фронтенд.
           </p>
-
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
-            {[
-              {
-                t: "Плотность > воздуха",
-                d: "Excel-уровень плотности, Linear-уровень polish. Не consumer SaaS.",
-              },
-              {
-                t: "RU-first",
-                d: "Кириллица, ДД.ММ.ГГГГ, 1 234,56, «ёлочки», ru_RU collation.",
-              },
-              {
-                t: "152-ФЗ как UI-слой",
-                d: "Sensitivity-маркеры, reveal с countdown, AI provenance — всегда видимы.",
-              },
-            ].map((p) => (
-              <div
-                key={p.t}
-                className="rounded-lg border border-gray-200 bg-neutral-50 p-3"
-              >
-                <div className="text-sm font-medium">{p.t}</div>
-                <div className="mt-1 text-xs text-slate-600 leading-relaxed">
-                  {p.d}
-                </div>
-              </div>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {["Density > whitespace", "RU-first", "Desktop-first 1366+", "Keyboard-first", "152-ФЗ as UI"].map((t) => (
+              <span key={t} className="rounded-md border border-[#E5E7EB] bg-[#FAFAFA] px-2.5 py-1 text-[11px] font-medium text-[#475569]">
+                {t}
+              </span>
             ))}
           </div>
         </div>
       </div>
 
-      {/* TWO-COL LAYOUT */}
-      <div className="mx-auto max-w-7xl px-8 py-10 flex gap-10">
+      {/* TWO-COLUMN: TOC + CONTENT */}
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-8 py-10 lg:grid-cols-[200px_1fr]">
         {/* TOC */}
-        <aside className="hidden lg:block w-52 shrink-0">
-          <div className="sticky top-20">
-            <div className="uppercase tracking-wider text-slate-400 font-medium mb-2" style={{ fontSize: 11 }}>
-              Содержание
-            </div>
-            <ul className="space-y-1 text-sm">
-              {TOC.map((t) => (
-                <li key={t.id}>
-                  <a
-                    href={`#${t.id}`}
-                    className="block py-1 text-slate-600 hover:text-slate-900 transition-colors"
-                  >
-                    {t.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <aside className="hidden lg:block">
+          <nav className="sticky top-20 space-y-1 text-[12px]">
+            {[
+              ["01", "principles", "Принципы"],
+              ["02", "colors", "Цвета"],
+              ["03", "typography", "Типографика"],
+              ["04", "field-types", "Типы полей"],
+              ["05", "actors", "Авторы операций"],
+              ["06", "approvals", "Состояния согласований"],
+              ["07", "sensitivity", "Чувствительные данные"],
+              ["08", "ai", "AI provenance"],
+              ["09", "datagrid", "Плотность DataGrid"],
+              ["10", "layout", "Размеры layout"],
+              ["11", "modules", "Иконки модулей"],
+              ["12", "ru-typo", "Русская типографика"],
+              ["13", "states", "Шаблоны состояний"],
+              ["14", "anti", "Anti-patterns"],
+            ].map(([n, id, label]) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                className="flex gap-2 rounded px-2 py-1.5 text-[#475569] transition-colors hover:bg-white hover:text-[#0F172A]"
+              >
+                <span className="font-mono text-[#94A3B8] tabular-nums">{n}</span>
+                <span>{label}</span>
+              </a>
+            ))}
+          </nav>
         </aside>
 
         {/* CONTENT */}
-        <div className="min-w-0 flex-1">
-          {/* 1. ПРИНЦИПЫ */}
+        <div className="min-w-0 space-y-2">
+          {/* 01 ПРИНЦИПЫ */}
           <Section
             id="principles"
+            num="01"
             title="Принципы"
-            intro="Любое UI-решение проверяется этими тремя правилами. Если конфликтуют — побеждает первое."
+            desc="Три правила, из которых выводятся все остальные решения. Каждое решение в системе должно проходить эту проверку."
           >
-            <ol className="space-y-3 text-sm">
+            <div className="grid gap-3 sm:grid-cols-3">
               {[
-                ["Плотность важнее воздуха на рабочих экранах.",
-                  "Пользователь живёт в продукте 4–8 часов в день. DataGrid — 32–36px строки compact. Whitespace оставляем для онбординга, settings и редко используемых поверхностей."],
-                ["Запись — центр всего.",
-                  "Все 8 типов сущностей вокруг записи: коммуникации, письма, согласования, файлы, история, ссылки, комментарии. Слайдер/модалка/full-screen — три формата одной карточки."],
-                ["Security-сигналы постоянно видны, но не криком.",
-                  "Lock-иконка, sensitive badge, AI ✨, sync-индикатор — присутствуют на каждой релевантной ячейке. Цвет приглушённый, размер мелкий, но 100% узнаваемые."],
-                ["Keyboard-first.",
-                  "Cmd+K везде. Tab по DataGrid. Hotkeys видны в tooltip каждого действия. Mouse — fallback."],
-                ["Никаких consumer SaaS-приёмов.",
-                  "Без onboarding-турова на 20 шагов, без gamification, без больших иллюстраций в empty states, без эмодзи в системных сообщениях."],
-              ].map(([head, body], i) => (
-                <li key={i} className="flex gap-3">
-                  <span className="shrink-0 inline-flex h-6 w-6 items-center justify-center rounded bg-slate-900 text-white text-xs font-mono">
-                    {i + 1}
-                  </span>
-                  <div>
-                    <div className="font-medium">{head}</div>
-                    <div className="text-slate-600 leading-relaxed mt-0.5">
-                      {body}
-                    </div>
-                  </div>
-                </li>
+                {
+                  num: "I",
+                  title: "Плотность > воздуха",
+                  body: "На основных экранах пользователь сидит по 6 часов в день. Это не Notion с «breathing whitespace». Это Excel-плотность с современным polish.",
+                },
+                {
+                  num: "II",
+                  title: "RU-first",
+                  body: "Кириллица как first-class: правильный шрифт, кавычки-«ёлочки», тире, неразрывные пробелы, DD.MM.YYYY, запятая в десятичных, ru_RU collation.",
+                },
+                {
+                  num: "III",
+                  title: "152-ФЗ как UI",
+                  body: "Sensitivity — постоянный визуальный слой, не баннер согласия. Reveal по клику с countdown и аудитом, не по hover.",
+                },
+              ].map((p) => (
+                <Card key={p.num} className="p-4">
+                  <div className="font-mono text-[11px] text-[#94A3B8]">{p.num}</div>
+                  <div className="mt-1 text-[14px] font-semibold leading-tight">{p.title}</div>
+                  <p className="mt-2 text-[12px] leading-[18px] text-[#475569]">{p.body}</p>
+                </Card>
               ))}
-            </ol>
-          </Section>
-
-          {/* 2. ЦВЕТА */}
-          <Section
-            id="colors"
-            title="Цвета"
-            intro="Палитра намеренно сдержанная. Семантические токены — единственный способ задать цвет в продукте; прямые hex-ы в компонентах запрещены."
-          >
-            <div className="mb-6">
-              <div className="text-xs font-medium text-slate-600 mb-2 uppercase tracking-wide">
-                Нейтрали
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {COLORS.neutral.map((c) => (
-                  <div
-                    key={c.name}
-                    className="rounded-md border border-gray-200 bg-white overflow-hidden"
-                  >
-                    <div className="h-12 border-b border-gray-200" style={{ background: c.hex }} />
-                    <div className="px-2.5 py-1.5">
-                      <div className="text-xs font-medium">{c.name}</div>
-                      <div className="font-mono text-slate-400" style={{ fontSize: 11 }}>
-                        {c.hex}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="text-xs font-medium text-slate-600 mb-2 uppercase tracking-wide">
-                Семантические
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {COLORS.semantic.map((c) => (
-                  <div
-                    key={c.name}
-                    className="flex items-stretch rounded-md border border-gray-200 bg-white overflow-hidden"
-                  >
-                    <div className="w-14 shrink-0" style={{ background: c.hex }} />
-                    <div className="w-10 shrink-0 border-r border-gray-200" style={{ background: c.tint }} />
-                    <div className="px-3 py-2 flex-1">
-                      <div className="text-sm font-medium">{c.name}</div>
-                      <div className="font-mono text-slate-400" style={{ fontSize: 11 }}>
-                        {c.hex} · tint {c.tint}
-                      </div>
-                      <div className="text-xs text-slate-600 mt-0.5">{c.use}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-4 rounded-md bg-amber-100 border border-amber-300 px-3 py-2 text-xs text-amber-900">
-              <strong>Dark theme</strong> — Phase 2. Операционные инструменты в РФ
-              работают в light по умолчанию; перенос dark откладываем до стабилизации
-              light-палитры на реальных данных.
             </div>
           </Section>
 
-          {/* 3. ТИПОГРАФИКА */}
+          {/* 02 ЦВЕТА */}
+          <Section id="colors" num="02" title="Цвета" desc="Light-палитра (Phase 1). Семантика — что важно: цвет AI отделён от primary, чтобы AI-сигнал никогда не сливался с действиями.">
+            <div className="space-y-5">
+              <div>
+                <div className="mb-2 text-[12px] font-medium text-[#475569]">Нейтральные</div>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+                  {NEUTRALS.map((c) => (
+                    <div key={c.name} className="overflow-hidden rounded-md border border-[#E5E7EB] bg-white">
+                      <div className="h-14" style={{ background: c.hex }} />
+                      <div className="border-t border-[#E5E7EB] px-2.5 py-1.5">
+                        <div className="text-[11px] font-medium leading-tight text-[#0F172A]">{c.name}</div>
+                        <div className="font-mono text-[10px] leading-tight text-[#94A3B8]">{c.hex}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-2 text-[12px] font-medium text-[#475569]">Семантические</div>
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {SEMANTIC.map((c) => (
+                    <div key={c.name} className="rounded-md border border-[#E5E7EB] bg-white p-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="h-7 w-7 rounded-md border border-[#E5E7EB]" style={{ background: c.hex }} />
+                        <span className="h-7 w-7 rounded-md border border-[#E5E7EB]" style={{ background: c.tint }} />
+                        <div className="ml-1">
+                          <div className="text-[12px] font-medium leading-tight">{c.name}</div>
+                          <div className="font-mono text-[10px] leading-tight text-[#94A3B8]">
+                            {c.hex} · {c.tint}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-2 text-[11px] leading-[16px] text-[#475569]">{c.use}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Section>
+
+          {/* 03 ТИПОГРАФИКА */}
           <Section
             id="typography"
+            num="03"
             title="Типографика"
-            intro="Шкала из 8 уровней. Шрифт — кириллическо-aware (рекомендую PT Root UI, Manrope или YS Text). Не Inter без подправленных кириллических вариантов."
+            desc="9 уровней. Рекомендуемый шрифт — PT Root UI, Manrope или YS Text: они корректно рендерят кириллические д, л, и, я в строчном. Inter — только с поправленными кириллическими вариантами."
           >
-            <div className="rounded-md border border-gray-200 bg-white divide-y divide-gray-200">
-              {TYPO_SCALE.map((t) => (
-                <div
-                  key={t.name}
-                  className="grid grid-cols-12 gap-4 px-4 py-3 items-baseline"
-                >
-                  <div className="col-span-3">
-                    <div className="text-sm font-medium">{t.name}</div>
-                    <div className="font-mono text-slate-400" style={{ fontSize: 11 }}>
-                      {t.size}/{t.lh} · {t.weight}
+            <Card className="divide-y divide-[#E5E7EB]">
+              {TYPO.map((t) => (
+                <div key={t.name} className="grid grid-cols-[140px_60px_1fr] items-center gap-4 px-4 py-3">
+                  <div>
+                    <div className="text-[12px] font-medium text-[#0F172A]">{t.name}</div>
+                    <div className="font-mono text-[10px] text-[#94A3B8]">
+                      {t.size}/{t.line} · {t.weight}
                     </div>
                   </div>
+                  <div className="font-mono text-[10px] text-[#94A3B8]">{t.size}px</div>
                   <div
-                    className="col-span-9 text-slate-900"
-                    style={{
-                      fontSize: t.size,
-                      lineHeight: `${t.lh}px`,
-                      fontWeight: t.weight,
-                    }}
+                    className={`min-w-0 truncate ${t.mono ? "font-mono" : ""}`}
+                    style={{ fontSize: t.size, lineHeight: `${t.line}px`, fontWeight: t.weight }}
                   >
                     {t.sample}
                   </div>
                 </div>
               ))}
-            </div>
-            <p className="mt-3 text-xs text-slate-600 leading-relaxed">
-              Проверка кириллицы: длинные строчные «д», «л», «и», «р» не должны
-              разъезжаться по бейзлайну на 14px/20 в DataGrid с 12–15 строками
-              в видимой области. Если шрифт ломается — он не подходит.
-            </p>
+            </Card>
           </Section>
 
-          {/* 4. ИКОНКИ ТИПОВ ПОЛЕЙ */}
+          {/* 04 ТИПЫ ПОЛЕЙ */}
           <Section
             id="field-types"
-            title="Иконки типов полей"
-            intro="29 типов в 11 классах. Каждый тип имеет уникальный визуальный маркер в заголовке колонки DataGrid и в шапке поля Record Panel. Пользователь должен распознавать тип за < 200 мс."
+            num="04"
+            title="Типы полей"
+            desc="29 типов в 11 классах. Каждый имеет distinct иконку — пользователь должен с одного взгляда отличить Number от Currency, Phone от ИНН, AI от Formula."
           >
             <div className="space-y-5">
-              {TYPE_GROUPS.map((g) => (
+              {FIELD_GROUPS.map((g) => (
                 <div key={g.klass}>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-slate-900 text-white font-mono" style={{ fontSize: 11 }}>
-                      {g.klass}
-                    </span>
-                    <span className="text-sm font-medium">{g.klassName}</span>
-                    <span className="text-slate-400 font-mono" style={{ fontSize: 11 }}>
-                      {g.types.length} {g.types.length === 1 ? "тип" : "типов"}
-                    </span>
+                  <div className="mb-2 flex items-baseline gap-2">
+                    <span className="font-mono text-[11px] text-[#94A3B8]">{g.klass}.</span>
+                    <span className="text-[13px] font-semibold text-[#0F172A]">{g.title}</span>
+                    <span className="text-[11px] text-[#94A3B8]">— {g.types.length} тип{g.types.length === 1 ? "" : g.types.length > 4 ? "ов" : "а"}</span>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {g.types.map((t) => (
-                      <div
-                        key={t.name}
-                        className="flex items-center gap-2.5 rounded-md border border-gray-200 bg-white px-2.5 py-2"
-                      >
-                        <TypeChip icon={t.icon} />
-                        <div className="min-w-0">
-                          <div className="text-xs font-medium truncate">
-                            {t.name}
-                          </div>
-                          <div className="text-slate-400 truncate" style={{ fontSize: 11 }}>
-                            {t.desc}
-                          </div>
-                        </div>
-                      </div>
+                      <FieldChip key={t.name} {...t} />
                     ))}
                   </div>
                 </div>
@@ -487,497 +510,452 @@ export default function TabelDesignSystem({ project }: { project: Project }) {
             </div>
           </Section>
 
-          {/* 5. АВТОРЫ */}
+          {/* 05 ACTORS */}
           <Section
             id="actors"
-            title="Авторы изменений"
-            intro="Каждая правка несёт actor + actor_type. В колонках Created/Updated By — иконка типа автора. Это часть аудита и compliance handshake."
+            num="05"
+            title="Авторы операций"
+            desc="В колонках Created By / Updated By показывается не только субъект, но и тип субъекта. Это часть аудита и визуальной attribution."
           >
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-2">
+            <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-5">
               {ACTORS.map((a) => (
-                <div
-                  key={a.label}
-                  className="rounded-md border border-gray-200 bg-white px-3 py-3 text-center"
-                >
-                  <div className="text-2xl leading-none mb-1.5">{a.icon}</div>
-                  <div className="text-sm font-medium">{a.label}</div>
-                  <div className="text-slate-400 mt-0.5" style={{ fontSize: 11 }}>
-                    {a.desc}
-                  </div>
+                <div key={a.name} className="rounded-md border border-[#E5E7EB] bg-white p-3">
+                  <span
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md"
+                    style={{ background: a.bg, color: a.color }}
+                  >
+                    <a.Icon size={18} color="currentColor" />
+                  </span>
+                  <div className="mt-2 text-[13px] font-medium text-[#0F172A]">{a.name}</div>
+                  <div className="text-[11px] leading-tight text-[#94A3B8]">{a.desc}</div>
                 </div>
               ))}
             </div>
           </Section>
 
-          {/* 6. СОГЛАСОВАНИЯ */}
+          {/* 06 APPROVAL STATES */}
           <Section
             id="approvals"
+            num="06"
             title="Состояния согласований"
-            intro="7 значений computed-поля _approval_state. Badge в заголовке Record Panel, в DataGrid-колонке, в Approval Inbox. Терминология фиксирована: «Согласовать», «Резолюция», «Заявка». Никогда «Подпись», «Подписать», «Виза»."
+            desc="7 значений системного поля _approval_state. Цвет + иконка + текст — всегда вместе, никогда отдельно. По цвету одного состояние читаться не должно."
           >
             <div className="flex flex-wrap gap-2">
               {APPROVAL_STATES.map((s) => (
-                <StateBadge key={s.key} state={s} />
+                <StateBadge key={s.state} Icon={s.Icon} label={s.label} color={s.color} bg={s.bg} />
               ))}
             </div>
-
-            <div className="mt-5 rounded-md border border-gray-200 bg-white overflow-hidden">
-              <div className="px-4 py-2.5 border-b border-gray-200 bg-neutral-50 flex items-center justify-between">
-                <div>
-                  <div className="text-xs font-mono text-slate-400">
-                    Record · Заявка на закупку #4821
-                  </div>
-                  <div className="text-sm font-medium mt-0.5">
-                    Принтер HP LaserJet · 18 400,00 ₽
-                  </div>
-                </div>
-                <StateBadge state={APPROVAL_STATES[1]} />
-              </div>
-              <div className="px-4 py-3 text-xs text-slate-600 space-y-1">
-                <div>
-                  Заявка → Иванов И. И. (одобрил, 14.05.2026 11:32) → Петров С. В. (ожидает)
-                </div>
-                <div className="text-slate-400">
-                  Напоминания 3+1+1 · Reminder 1 отправлен 13.05.2026 14:00
-                </div>
-              </div>
-            </div>
+            <Card className="mt-4 p-3 font-mono text-[11px] text-[#475569]">
+              _approval_state: {APPROVAL_STATES.map((s) => `'${s.state}'`).join(" | ")}
+            </Card>
           </Section>
 
-          {/* 7. SENSITIVITY */}
+          {/* 07 SENSITIVITY */}
           <Section
             id="sensitivity"
-            title="152-ФЗ · маскирование и reveal"
-            intro="Чувствительные данные — постоянный визуальный слой. 4 класса sensitivity, каждый со своим UI-поведением. Phone reveal — отдельный pattern с обратным отсчётом."
+            num="07"
+            title="Чувствительные данные"
+            desc="4 класса. Это не баннер согласия — это постоянный визуальный слой на ячейках, в виджетах, в экспортах. Phone имеет специальный UX reveal-flow с обратным отсчётом и аудитом."
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-              {[
-                {
-                  klass: "standard",
-                  label: "Стандартное",
-                  example: "Иванов Иван Иванович",
-                  note: "Без специальных мер",
-                  borderColor: "#E5E7EB",
-                  tag: null,
-                },
-                {
-                  klass: "sensitive",
-                  label: "Чувствительное (по умолчанию маскируется)",
-                  example: "+7 (***) ***-**-90",
-                  note: "Иконка 🔒 на ячейке, reveal по клику на 30 сек",
-                  borderColor: "#E5E7EB",
-                  tag: { text: "🔒 sensitive", fg: "#475569", bg: "#F1F5F9" },
-                },
-                {
-                  klass: "specially_protected",
-                  label: "Особо защищённое",
-                  example: "Группа крови: II Rh+",
-                  note: "Permanent badge, предупреждение при создании поля",
-                  borderColor: "#FCD34D",
-                  tag: { text: "152-ФЗ · особо защ.", fg: "#78350F", bg: "#FEF3C7" },
-                },
-                {
-                  klass: "biometric_identification",
-                  label: "Биометрия",
-                  example: "— запрещено в Phase 1–3 —",
-                  note: "Создание поля заблокировано, error при API-вызове",
-                  borderColor: "#FCA5A5",
-                  tag: { text: "запрещено", fg: "#991B1B", bg: "#FEE2E2" },
-                },
-              ].map((s) => (
-                <div
-                  key={s.klass}
-                  className="rounded-md bg-white px-3.5 py-3"
-                  style={{ border: `1px solid ${s.borderColor}` }}
-                >
-                  <div className="flex items-start justify-between gap-2 mb-1.5">
-                    <div className="text-xs font-mono text-slate-400">{s.klass}</div>
-                    {s.tag && (
-                      <span
-                        className="font-medium rounded px-1.5 py-0.5"
-                        style={{ color: s.tag.fg, background: s.tag.bg, fontSize: 10 }}
-                      >
-                        {s.tag.text}
+            <div className="space-y-4">
+              {/* классы */}
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  { Icon: null as IconCmp | null, label: "standard", desc: "Без специальных мер", color: "#94A3B8", bg: "#F1F5F9", sample: "Иван Петров" },
+                  { Icon: LockLinear, label: "sensitive", desc: "Маскирование по умолч., reveal по клику", color: "#D97706", bg: "#FEF3C7", sample: "+7 (***) ***-**-67" },
+                  { Icon: LockKeyholeLinear, label: "specially_protected", desc: "Permanent badge + warning при создании", color: "#DC2626", bg: "#FEE2E2", sample: "***-***-*** 12" },
+                  { Icon: ForbiddenLinear, label: "biometric", desc: "Запрещено создавать (Phase 1–3)", color: "#334155", bg: "#E2E8F0", sample: "— запрещено —" },
+                ].map((s) => (
+                  <Card key={s.label} className="p-3">
+                    <div className="flex items-center gap-2">
+                      {s.Icon ? (
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded" style={{ background: s.bg, color: s.color }}>
+                          <s.Icon size={14} color="currentColor" />
+                        </span>
+                      ) : (
+                        <span className="h-6 w-6 rounded border border-dashed border-[#CBD5E1]" />
+                      )}
+                      <span className="font-mono text-[11px] font-medium" style={{ color: s.color }}>
+                        {s.label}
                       </span>
-                    )}
-                  </div>
-                  <div className="text-sm font-medium">{s.label}</div>
-                  <div className="mt-2 font-mono text-sm text-slate-900">
-                    {s.example}
-                  </div>
-                  <div className="text-slate-600 mt-1.5 leading-relaxed" style={{ fontSize: 11 }}>
-                    {s.note}
-                  </div>
-                </div>
-              ))}
-            </div>
+                    </div>
+                    <div className="mt-2 text-[11px] leading-[16px] text-[#475569]">{s.desc}</div>
+                    <div className="mt-2 rounded border border-[#E5E7EB] bg-[#FAFAFA] px-2 py-1.5 font-mono text-[12px] text-[#0F172A]">
+                      {s.sample}
+                    </div>
+                  </Card>
+                ))}
+              </div>
 
-            <div className="rounded-md border border-gray-200 bg-white overflow-hidden">
-              <div className="px-4 py-2.5 border-b border-gray-200 bg-neutral-50">
-                <div className="text-sm font-medium">Phone reveal flow</div>
-                <div className="text-xs text-slate-600 mt-0.5">
-                  Reveal — только по клику (никогда по hover). 15 / 30 / 60 / 120 сек, default 30. Audit-событие phone.reveal.
+              {/* Phone reveal flow */}
+              <Card className="p-4">
+                <div className="mb-3 flex items-center gap-2">
+                  <PhoneLinear size={16} color="#475569" />
+                  <span className="text-[13px] font-semibold text-[#0F172A]">Phone reveal flow</span>
+                  <span className="rounded bg-[#FEF3C7] px-1.5 py-0.5 font-mono text-[10px] font-medium text-[#D97706]">
+                    специфично для Phone
+                  </span>
                 </div>
-              </div>
-              <div className="grid grid-cols-3 divide-x divide-gray-200">
-                <div className="px-4 py-4 text-center">
-                  <div className="text-slate-400 mb-2" style={{ fontSize: 11 }}>1 · masked</div>
-                  <div className="font-mono text-sm inline-flex items-center gap-2">
-                    +7 (***) ***-**-90
-                    <span className="text-xs">🔒</span>
-                  </div>
+                <div className="grid gap-2 sm:grid-cols-4">
+                  {[
+                    {
+                      title: "off",
+                      sample: "+7 (916) 123-45-67",
+                      hint: "Полностью видно — для роли с разрешением",
+                      Icon: EyeLinear,
+                      color: "#16A34A",
+                      bg: "#DCFCE7",
+                    },
+                    {
+                      title: "partial (default)",
+                      sample: "+7 (***) ***-**-67",
+                      hint: "Идентификация без раскрытия",
+                      Icon: LockLinear,
+                      color: "#D97706",
+                      bg: "#FEF3C7",
+                    },
+                    {
+                      title: "full",
+                      sample: "•••••••••••",
+                      hint: "Extra-strict, только последние 0 цифр",
+                      Icon: EyeClosedLinear,
+                      color: "#DC2626",
+                      bg: "#FEE2E2",
+                    },
+                    {
+                      title: "revealed · countdown",
+                      sample: "+7 (916) 123-45-67",
+                      hint: "Audit-событие phone.reveal, авто-скрытие",
+                      Icon: ClockCircleLinear,
+                      color: "#2563EB",
+                      bg: "#DBEAFE",
+                      badge: "28с",
+                    },
+                  ].map((r) => (
+                    <div key={r.title} className="rounded-md border border-[#E5E7EB] bg-[#FAFAFA] p-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="inline-flex h-5 w-5 items-center justify-center rounded" style={{ background: r.bg, color: r.color }}>
+                          <r.Icon size={12} color="currentColor" />
+                        </span>
+                        <span className="font-mono text-[10px] font-medium text-[#475569]">{r.title}</span>
+                        {r.badge && (
+                          <span className="ml-auto rounded-full px-1.5 py-0.5 font-mono text-[10px] font-medium" style={{ background: r.bg, color: r.color }}>
+                            {r.badge}
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-2 font-mono text-[13px] text-[#0F172A]">{r.sample}</div>
+                      <div className="mt-1 text-[10px] leading-tight text-[#94A3B8]">{r.hint}</div>
+                    </div>
+                  ))}
                 </div>
-                <div className="px-4 py-4 text-center" style={{ background: "#FEF3C7" }}>
-                  <div className="text-amber-900 mb-2" style={{ fontSize: 11 }}>
-                    2 · revealed
-                  </div>
-                  <div className="font-mono text-sm inline-flex items-center gap-2">
-                    +7 (916) 123-45-90
-                    <span className="font-medium rounded px-1.5 py-0.5 text-white tabular-nums" style={{ background: "#D97706", fontSize: 10 }}>
-                      28с
-                    </span>
-                  </div>
+                <div className="mt-3 text-[11px] text-[#475569]">
+                  Reveal только по клику — никогда по hover (hover не оставляет audit-следа). Default —{" "}
+                  <span className="font-mono">30с</span>, доступны{" "}
+                  <span className="font-mono">15 / 30 / 60 / 120с</span>. Bulk reveal &gt; 10 за 5 минут — security alert.
                 </div>
-                <div className="px-4 py-4 text-center">
-                  <div className="text-slate-400 mb-2" style={{ fontSize: 11 }}>3 · auto-mask</div>
-                  <div className="font-mono text-sm inline-flex items-center gap-2">
-                    +7 (***) ***-**-90
-                    <span className="text-xs">🔒</span>
-                  </div>
-                </div>
-              </div>
-              <div className="px-4 py-2 border-t border-gray-200 text-red-900" style={{ background: "#FEE2E2", fontSize: 11 }}>
-                Bulk alert: &gt; 10 phone reveal за 5 мин · &gt; 100 sensitive reveal за час → security event.
-              </div>
+              </Card>
             </div>
           </Section>
 
-          {/* 8. AI PROVENANCE */}
+          {/* 08 AI PROVENANCE */}
           <Section
-            id="ai-provenance"
+            id="ai"
+            num="08"
             title="AI provenance"
-            intro="Ни одно AI-сгенерированное значение в продукте не появляется без ✨-иконки и provenance-tooltip. Это compliance-обязательство, не косметика."
+            desc="Каждое AI-значение имеет ✨ маркер и tooltip с provenance. AI без пометки — anti-pattern."
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="rounded-md border border-gray-200 bg-white p-4">
-                <div className="text-xs text-slate-400 mb-2 font-mono">
-                  DataGrid cell
+            <div className="grid gap-3 sm:grid-cols-[1fr_280px]">
+              {/* sample cell */}
+              <Card className="p-4">
+                <div className="mb-2 font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">
+                  AI cell в DataGrid
                 </div>
-                <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded border border-gray-200 bg-neutral-50 text-sm">
-                  <span className="text-violet-500">✨</span>
-                  <span>Высокий приоритет</span>
+                <div className="overflow-hidden rounded-md border border-[#E5E7EB]">
+                  <div className="grid grid-cols-[24px_180px_1fr] items-center gap-2 border-b border-[#E5E7EB] bg-[#FAFAFA] px-2.5 py-1.5 text-[11px] font-medium text-[#94A3B8]">
+                    <span></span>
+                    <span>Запись</span>
+                    <span>Приоритет (AI)</span>
+                  </div>
+                  {["Заказ #4521", "Заказ #4522", "Заказ #4523"].map((rec, i) => (
+                    <div key={rec} className="grid grid-cols-[24px_180px_1fr] items-center gap-2 border-b border-[#E5E7EB] px-2.5 py-1.5 text-[13px] last:border-b-0">
+                      <span className="font-mono text-[11px] text-[#94A3B8]">{i + 1}</span>
+                      <span className="text-[#0F172A]">{rec}</span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <MagicStick3Linear size={13} color="#8B5CF6" />
+                        <span className="text-[#0F172A]">{["Высокий", "Средний", "Низкий"][i]}</span>
+                      </span>
+                    </div>
+                  ))}
                 </div>
-                <div className="text-slate-600 mt-2 leading-relaxed" style={{ fontSize: 11 }}>
-                  Sparkle в начале значения. Цвет — AI-фиолетовый #8B5CF6. На
-                  manually_edited значениях sparkle тускнеет до 40% opacity.
+              </Card>
+
+              {/* provenance tooltip mock */}
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">
+                  Provenance tooltip
+                </div>
+                <Card className="p-3 shadow-sm">
+                  <div className="flex items-center gap-1.5 border-b border-[#E5E7EB] pb-2">
+                    <MagicStick3Linear size={14} color="#8B5CF6" />
+                    <span className="text-[12px] font-semibold text-[#0F172A]">AI Field</span>
+                  </div>
+                  {[
+                    ["Provider", "YandexGPT 4 Pro"],
+                    ["Confidence", "87%"],
+                    ["Generated", "14.05.2026 12:34"],
+                    ["Manually edited", "нет"],
+                  ].map(([k, v]) => (
+                    <div key={k} className="flex items-center justify-between pt-1.5 text-[11px]">
+                      <span className="text-[#94A3B8]">{k}</span>
+                      <span className="font-mono text-[#0F172A]">{v}</span>
+                    </div>
+                  ))}
+                </Card>
+                <div className="flex items-center gap-1.5 rounded-md border border-[#FEF3C7] bg-[#FEF3C7]/40 px-2.5 py-1.5">
+                  <GlobalLinear size={13} color="#D97706" />
+                  <span className="text-[11px] text-[#92400E]">
+                    Cross-border AI — permanent badge на поле, когда provider за пределами РФ
+                  </span>
                 </div>
               </div>
-
-              <div className="rounded-md border border-gray-200 bg-white p-4">
-                <div className="text-xs text-slate-400 mb-2 font-mono">
-                  Tooltip on hover
-                </div>
-                <div className="rounded-md text-white p-3 text-xs space-y-1" style={{ background: "#0F172A", border: "1px solid #0F172A" }}>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">Provider</span>
-                    <span className="font-mono">YandexGPT 4 Pro</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">Confidence</span>
-                    <span className="font-mono">0.87</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">Generated</span>
-                    <span className="font-mono">14.05.2026 12:34</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">Edited</span>
-                    <span className="font-mono">нет</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-3 rounded-md border border-amber-300 bg-amber-100 px-3 py-2.5 text-xs text-amber-900">
-              <strong>Cross-border badge.</strong> Если workspace включает
-              OpenAI / Anthropic / DeepSeek — на AI-функциях постоянный visible badge
-              «Данные отправляются за пределы РФ». Badge нельзя свернуть.
             </div>
           </Section>
 
-          {/* 9. DATAGRID */}
+          {/* 09 DATAGRID */}
           <Section
             id="datagrid"
+            num="09"
             title="Плотность DataGrid"
-            intro="Главный экран продукта. Compact 32px — default. Comfort 44px — переключатель в settings view. До 200 колонок × 100 000 записей, виртуализация обязательна."
+            desc="Compact — 32px строка, default. Comfort — 40px, переключатель в settings. Пользователь видит на 30–40% больше за прокрутку — это ценнее, чем «воздух»."
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                { mode: "Compact · 32px", height: 32 },
-                { mode: "Comfort · 44px", height: 44 },
-              ].map((m) => (
-                <div
-                  key={m.mode}
-                  className="rounded-md border border-gray-200 bg-white overflow-hidden"
-                >
-                  <div className="px-3 py-2 bg-neutral-50 border-b border-gray-200 text-xs font-medium">
-                    {m.mode}
+            <div className="grid gap-3 sm:grid-cols-2">
+              {([
+                { mode: "Compact", h: 32, pad: "py-[7px]", label: "32px · default" },
+                { mode: "Comfort", h: 40, pad: "py-[11px]", label: "40px · optional" },
+              ] as const).map((m) => (
+                <Card key={m.mode}>
+                  <div className="flex items-center justify-between border-b border-[#E5E7EB] bg-[#FAFAFA] px-3 py-2">
+                    <span className="text-[12px] font-semibold text-[#0F172A]">{m.mode}</span>
+                    <span className="font-mono text-[10px] text-[#94A3B8]">{m.label}</span>
                   </div>
-                  <div className="text-xs">
-                    <div
-                      className="grid bg-neutral-50 border-b border-gray-200 text-slate-600"
-                      style={{ gridTemplateColumns: "24px 1fr 90px 100px" }}
-                    >
-                      <div className="px-2 py-1.5 border-r border-gray-200 text-center">#</div>
-                      <div className="px-2 py-1.5 border-r border-gray-200 flex items-center gap-1.5">
-                        <TypeChip icon="T" />
-                        Клиент
-                      </div>
-                      <div className="px-2 py-1.5 border-r border-gray-200 flex items-center gap-1.5">
-                        <TypeChip icon="●" />
-                        Статус
-                      </div>
-                      <div className="px-2 py-1.5 flex items-center gap-1.5">
-                        <TypeChip icon="₽" />
-                        Сумма
-                      </div>
+                  <div className="text-[12px]">
+                    <div className="grid grid-cols-[28px_1fr_120px_80px] items-center gap-2 border-b border-[#E5E7EB] bg-[#FAFAFA] px-2.5 py-1.5 text-[11px] font-medium text-[#94A3B8]">
+                      <span></span>
+                      <span>Клиент</span>
+                      <span>Телефон</span>
+                      <span>Сумма, ₽</span>
                     </div>
                     {[
-                      ["ООО «Восход»", "В работе", "124 580,50 ₽", "#16A34A"],
-                      ["ИП Иванов И. И.", "Ожидает", "8 200,00 ₽", "#2563EB"],
-                      ["АО «Север-Авто»", "Согласовано", "456 000,00 ₽", "#16A34A"],
-                      ["ООО «Дельта-М»", "Отклонено", "12 350,00 ₽", "#DC2626"],
-                    ].map(([name, status, sum, color], i) => (
-                      <div
-                        key={i}
-                        className="grid border-b border-slate-100 last:border-b-0"
-                        style={{ gridTemplateColumns: "24px 1fr 90px 100px", height: m.height }}
-                      >
-                        <div className="px-2 flex items-center justify-center text-slate-400 border-r border-slate-100 tabular-nums">
-                          {i + 1}
-                        </div>
-                        <div className="px-2 flex items-center border-r border-slate-100 truncate">
-                          {name}
-                        </div>
-                        <div className="px-2 flex items-center border-r border-slate-100">
-                          <span
-                            className="inline-flex items-center gap-1"
-                            style={{ color: color as string, fontSize: 11 }}
-                          >
-                            <span
-                              className="h-1.5 w-1.5 rounded-full"
-                              style={{ background: color as string }}
-                            />
-                            {status}
-                          </span>
-                        </div>
-                        <div className="px-2 flex items-center justify-end tabular-nums" style={{ fontSize: 11 }}>
-                          {sum}
-                        </div>
+                      ["Иван Петров", "+7 (***) ***-**-67", "12 500"],
+                      ["Мария Соколова", "+7 (***) ***-**-12", "47 800"],
+                      ["ООО «Маяк»", "+7 (***) ***-**-04", "184 200"],
+                      ["Алексей Кузнецов", "+7 (***) ***-**-91", "9 040"],
+                    ].map(([name, phone, sum], i) => (
+                      <div key={i} className={`grid grid-cols-[28px_1fr_120px_80px] items-center gap-2 border-b border-[#E5E7EB] px-2.5 last:border-b-0 ${m.pad}`}>
+                        <span className="font-mono text-[10px] text-[#94A3B8]">{i + 1}</span>
+                        <span className="truncate text-[#0F172A]">{name}</span>
+                        <span className="inline-flex items-center gap-1 font-mono text-[#475569]">
+                          <LockLinear size={11} color="#D97706" />
+                          {phone}
+                        </span>
+                        <span className="text-right font-mono tabular-nums text-[#0F172A]">{sum}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="px-3 py-1.5 bg-neutral-50 border-t border-gray-200 flex items-center justify-between text-slate-600" style={{ fontSize: 11 }}>
-                    <span>4 записи</span>
-                    <span className="font-mono tabular-nums">
-                      Σ 601 130,50 ₽
-                    </span>
+                </Card>
+              ))}
+            </div>
+          </Section>
+
+          {/* 10 LAYOUT */}
+          <Section
+            id="layout"
+            num="10"
+            title="Размеры layout"
+            desc="Шаг сетки — 8px. Все размеры контейнеров — кратные 8."
+          >
+            <Card className="divide-y divide-[#E5E7EB]">
+              {[
+                ["Sidebar", "240–280px", "Collapsible до 56px (icon-only)"],
+                ["Record Panel", "480–640px", "Slide-out / modal / full-screen"],
+                ["Email Composer", "600 × 500px", "Docked в углу + full-screen опция"],
+                ["Workspace breakpoint min", "1366 × 768", "Phase 1 desktop-first floor"],
+                ["Sweet spot", "1920 × 1080", "Целевое разрешение"],
+                ["Dashboard grid", "12 колонок", "Шаг 60px по высоте"],
+                ["DataGrid row", "32 / 40px", "Compact / Comfort"],
+              ].map(([k, v, hint]) => (
+                <div key={k} className="grid grid-cols-[220px_140px_1fr] items-center gap-3 px-4 py-2.5">
+                  <span className="text-[13px] font-medium text-[#0F172A]">{k}</span>
+                  <span className="font-mono text-[12px] text-[#2563EB]">{v}</span>
+                  <span className="text-[12px] text-[#475569]">{hint}</span>
+                </div>
+              ))}
+            </Card>
+          </Section>
+
+          {/* 11 MODULES */}
+          <Section
+            id="modules"
+            num="11"
+            title="Иконки модулей"
+            desc="Структурные секции сайдбара — пользователь не может удалить или переставить. Только pinned внутри."
+          >
+            <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-4">
+              {[
+                { Icon: DatabaseLinear, name: "Tables", path: "/tables" },
+                { Icon: ChatRoundDotsLinear, name: "Communications", path: "/communications" },
+                { Icon: InboxLinear, name: "Email", path: "/email" },
+                { Icon: DocumentsLinear, name: "Files", path: "/files" },
+                { Icon: CheckCircleLinear, name: "Approvals", path: "/approvals" },
+                { Icon: ChartLinear, name: "Dashboards", path: "/dashboards" },
+                { Icon: BellLinear, name: "Inbox", path: "/inbox" },
+                { Icon: SettingsLinear, name: "Settings", path: "/settings" },
+              ].map((m) => (
+                <div key={m.name} className="flex items-center gap-2.5 rounded-md border border-[#E5E7EB] bg-white px-3 py-2">
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-[#F1F5F9] text-[#475569]">
+                    <m.Icon size={16} color="currentColor" />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="text-[13px] font-medium leading-tight text-[#0F172A]">{m.name}</div>
+                    <div className="font-mono text-[10px] text-[#94A3B8]">{m.path}</div>
                   </div>
                 </div>
               ))}
             </div>
           </Section>
 
-          {/* 10. LAYOUT */}
+          {/* 12 RU TYPO */}
           <Section
-            id="layout"
-            title="Размеры layout"
-            intro="Сетка 8px. Минимум 1366×768, sweet spot 1920×1080. Все ключевые поверхности — десктоп."
-          >
-            <div className="rounded-md border border-gray-200 bg-white overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-neutral-50 text-slate-600 text-xs uppercase tracking-wide">
-                  <tr>
-                    <th className="text-left px-4 py-2 border-b border-gray-200 font-medium">Поверхность</th>
-                    <th className="text-left px-4 py-2 border-b border-gray-200 font-medium">Размер</th>
-                    <th className="text-left px-4 py-2 border-b border-gray-200 font-medium">Поведение</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {[
-                    ["Sidebar", "240–280 px", "Collapsible до 56 px (icon-only)"],
-                    ["Record Panel · slide-out", "480–640 px", "Drag-resize, sticky tabs, full-screen toggle"],
-                    ["Record Panel · modal", "min(900 px, 70vw)", "Для углублённой работы"],
-                    ["Email Composer · docked", "600 × 500 px", "В правом нижнем углу, multi-instance"],
-                    ["Email Composer · full-screen", "100 % – sidebar", "AI-панель 280 px справа"],
-                    ["Dashboard grid", "12 колонок · 60 px step", "Виджет минимум 2×2"],
-                    ["DataGrid row · compact", "32 px", "Default · sticky header · frozen left"],
-                    ["DataGrid row · comfort", "44 px", "Toggle в settings view"],
-                    ["Command Palette", "640 × auto", "Center · max 60vh"],
-                  ].map(([a, b, c]) => (
-                    <tr key={a}>
-                      <td className="px-4 py-2 font-medium">{a}</td>
-                      <td className="px-4 py-2 font-mono text-xs tabular-nums">{b}</td>
-                      <td className="px-4 py-2 text-slate-600 text-xs">{c}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Section>
-
-          {/* 11. РУССКАЯ ТИПОГРАФИКА */}
-          <Section
-            id="ru-typography"
+            id="ru-typo"
+            num="12"
             title="Русская типографика"
-            intro="Сводка обязательных правил. Линтер на CI должен ловить нарушения в продуктовых строках."
+            desc="Не косметика — часть продукта. Нарушение этих правил сразу делает интерфейс «иностранным» на восприятие."
           >
-            <div className="rounded-md border border-gray-200 bg-white overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-neutral-50 text-slate-600 text-xs uppercase tracking-wide">
-                  <tr>
-                    <th className="text-left px-4 py-2 border-b border-gray-200 font-medium">Правило</th>
-                    <th className="text-left px-4 py-2 border-b border-gray-200 font-medium text-red-600">Нет</th>
-                    <th className="text-left px-4 py-2 border-b border-gray-200 font-medium text-green-600">Да</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 font-mono text-xs">
-                  {[
-                    ["Кавычки primary", `"Восход"`, "«Восход»"],
-                    ["Кавычки nested", "«офис «Север»»", "«офис „Север“»"],
-                    ["Дефис vs тире", "клиент - партнёр", "клиент — партнёр"],
-                    ["Многоточие", "...", "…"],
-                    ["Число + единица", "25 МБ (обычный пробел)", "25 МБ (неразрывный)"],
-                    ["Телефон + код", "+7 916", "+7 916"],
-                    ["Дата", "05/14/2026", "14.05.2026"],
-                    ["Время", "14:23 PM", "14:23 МСК"],
-                    ["Десятичная дробь", "1,234.56", "1 234,56"],
-                    ["Тысячи", "1,234,567", "1 234 567"],
-                    ["Валюта", "$124.50", "124,50 ₽"],
-                    ["Сортировка", "Ё в конце алфавита", "ru_RU collation — Ё после Е"],
-                  ].map(([rule, bad, good]) => (
-                    <tr key={rule}>
-                      <td className="px-4 py-2 font-sans text-slate-900">{rule}</td>
-                      <td className="px-4 py-2 text-red-600">{bad}</td>
-                      <td className="px-4 py-2 text-green-600">{good}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="mt-3 text-xs text-slate-600 leading-relaxed">
-              Внутренние коды (Tenant, Entity, Attribute, RLS) — только в admin-панели и логах.
-              В продуктовом UI: «Запись», «Поле», «Таблица», «Представление», «Согласование», «Заявка».
-            </div>
+            <Card className="overflow-hidden">
+              <div className="grid grid-cols-[160px_1fr_1fr] gap-0 border-b border-[#E5E7EB] bg-[#FAFAFA] px-4 py-2 text-[11px] font-medium uppercase tracking-wider text-[#94A3B8]">
+                <span>Правило</span>
+                <span className="text-[#DC2626]">Неправильно</span>
+                <span className="text-[#16A34A]">Правильно</span>
+              </div>
+              {[
+                ["Кавычки primary", '"Заказ #4521"', "«Заказ №4521»"],
+                ["Кавычки nested", '«Проект "Север"»', "«Проект „Север“»"],
+                ["Тире", "Скрыто - 152-ФЗ", "Скрыто — 152-ФЗ"],
+                ["Числа", "1234567.89", "1 234 567,89"],
+                ["Дата", "05/14/2026", "14.05.2026"],
+                ["Ед. измерения", "25MB", "25 МБ"],
+                ["Телефон", "+71234567890", "+7 (123) 456-78-90"],
+                ["Sort collation", "А, Б, В, …, Е, Ж, …, Ё, …, Я", "А, Б, В, Г, Д, Е, Ё, Ж, … (ru_RU)"],
+              ].map(([rule, wrong, right]) => (
+                <div key={rule} className="grid grid-cols-[160px_1fr_1fr] gap-0 border-b border-[#E5E7EB] px-4 py-2.5 text-[12px] last:border-b-0">
+                  <span className="text-[#475569]">{rule}</span>
+                  <span className="font-mono text-[#DC2626]/80 line-through decoration-[#DC2626]/40">{wrong}</span>
+                  <span className="font-mono text-[#0F172A]">{right}</span>
+                </div>
+              ))}
+            </Card>
           </Section>
 
-          {/* 12. СОСТОЯНИЯ */}
+          {/* 13 STATES */}
           <Section
             id="states"
+            num="13"
             title="Шаблоны состояний"
-            intro="Empty / Loading / Error / Permission — четыре класса состояний с разным визуальным языком. Permission states разводятся на два разных паттерна."
+            desc="Empty / error / permission / sync / masked — у каждого свой паттерн. Hidden field ≠ restricted action, sensitive masked ≠ ошибка загрузки. Пользователь должен мгновенно понять причину."
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="rounded-md border border-gray-200 bg-white p-4">
-                <div className="text-xs font-mono text-slate-400 mb-1">empty</div>
-                <div className="text-sm font-medium mb-1">Нет записей</div>
-                <div className="text-xs text-slate-600 mb-3 leading-relaxed">
-                  Actionable, не «empty, sorry». Seed-кнопка или seed-template.
-                </div>
-                <div className="flex gap-2">
-                  <button className="text-xs px-2.5 py-1 rounded bg-blue-600 text-white">
-                    Создать запись
-                  </button>
-                  <button className="text-xs px-2.5 py-1 rounded border border-gray-200 text-slate-600">
-                    Загрузить шаблон CRM
-                  </button>
-                </div>
-              </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {/* empty */}
+              <Card className="p-4">
+                <div className="mb-1 font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">empty</div>
+                <div className="text-[13px] font-semibold text-[#0F172A]">Нет записей</div>
+                <p className="mt-1 text-[12px] text-[#475569]">
+                  Actionable, не «empty, sorry». Seed-кнопка или загрузка шаблона.
+                </p>
+                <button className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-[#2563EB] bg-[#2563EB] px-2.5 py-1.5 text-[12px] font-medium text-white">
+                  Загрузить шаблон CRM
+                </button>
+              </Card>
 
-              <div className="rounded-md border border-gray-200 bg-white p-4">
-                <div className="text-xs font-mono text-slate-400 mb-1">error</div>
-                <div className="text-sm font-medium mb-1">Не удалось загрузить данные</div>
-                <div className="text-xs text-slate-600 mb-3 leading-relaxed">
-                  Recovery suggestion + retry. Никаких generic «no data».
+              {/* error */}
+              <Card className="p-4">
+                <div className="mb-1 font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">error</div>
+                <div className="flex items-center gap-1.5">
+                  <CloseCircleLinear size={14} color="#DC2626" />
+                  <span className="text-[13px] font-semibold text-[#0F172A]">Не удалось загрузить данные</span>
                 </div>
-                <button className="text-xs px-2.5 py-1 rounded border border-gray-200 text-slate-900">
+                <p className="mt-1 text-[12px] text-[#475569]">Recovery suggestion + retry. Никаких generic «no data».</p>
+                <button className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-[#E5E7EB] bg-white px-2.5 py-1.5 text-[12px] font-medium text-[#0F172A] hover:border-[#CBD5E1]">
+                  <RefreshLinear size={13} color="#475569" />
                   Повторить
                 </button>
-              </div>
+              </Card>
 
-              <div className="rounded-md border border-gray-200 bg-white p-4">
-                <div className="text-xs font-mono text-slate-400 mb-1">
-                  permission · hidden field
+              {/* permission · hidden */}
+              <Card className="p-4">
+                <div className="mb-1 font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">permission · hidden field</div>
+                <div className="text-[13px] font-semibold text-[#0F172A]">RLS-honest</div>
+                <p className="mt-1 text-[12px] text-[#475569]">
+                  Колонки нет совсем — как будто её не существует. Пользователь не догадывается о наличии скрытого поля.
+                </p>
+                <div className="mt-3 grid grid-cols-[1fr_1fr] gap-2 rounded-md border border-[#E5E7EB] bg-[#FAFAFA] px-3 py-2 font-mono text-[11px] text-[#94A3B8]">
+                  <span>Имя</span>
+                  <span>Сумма</span>
                 </div>
-                <div className="text-sm font-medium mb-1">RLS-honest</div>
-                <div className="text-xs text-slate-600 mb-3 leading-relaxed">
-                  Колонки нет совсем — как будто её не существует. Пользователь
-                  не должен догадываться о наличии скрытого поля.
-                </div>
-                <div className="font-mono text-slate-400 bg-neutral-50 rounded px-2 py-1.5 border border-gray-200" style={{ fontSize: 11 }}>
-                  Имя · Телефон · Сумма
-                </div>
-              </div>
+              </Card>
 
-              <div className="rounded-md border border-gray-200 bg-white p-4">
-                <div className="text-xs font-mono text-slate-400 mb-1">
-                  permission · restricted action
-                </div>
-                <div className="text-sm font-medium mb-1">Видно, но недоступно</div>
-                <div className="text-xs text-slate-600 mb-3 leading-relaxed">
-                  Кнопка disabled, tooltip объясняет «Недостаточно прав».
-                </div>
+              {/* permission · restricted */}
+              <Card className="p-4">
+                <div className="mb-1 font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">permission · restricted action</div>
+                <div className="text-[13px] font-semibold text-[#0F172A]">Видно, но недоступно</div>
+                <p className="mt-1 text-[12px] text-[#475569]">Кнопка disabled, tooltip объясняет «Недостаточно прав».</p>
                 <button
                   disabled
-                  className="text-xs px-2.5 py-1 rounded bg-slate-100 text-slate-400 cursor-not-allowed"
+                  className="mt-3 inline-flex cursor-not-allowed items-center gap-1.5 rounded-md border border-[#E5E7EB] bg-[#F1F5F9] px-2.5 py-1.5 text-[12px] font-medium text-[#94A3B8]"
                 >
+                  <ForbiddenCircleLinear size={13} color="#94A3B8" />
                   Удалить запись
                 </button>
-              </div>
+              </Card>
 
-              <div className="rounded-md border border-gray-200 bg-white p-4">
-                <div className="text-xs font-mono text-slate-400 mb-1">
-                  sync · synced table
-                </div>
-                <div className="text-sm font-medium mb-1">Записи из коннектора</div>
-                <div className="text-xs text-slate-600 mb-3 leading-relaxed">
-                  Locked-поля, индикатор «синхронизировано N мин назад».
-                </div>
-                <div className="inline-flex items-center gap-1.5 text-sky-500" style={{ fontSize: 11 }}>
-                  <span className="h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse" />
+              {/* sync */}
+              <Card className="p-4">
+                <div className="mb-1 font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">sync · synced table</div>
+                <div className="text-[13px] font-semibold text-[#0F172A]">Записи из коннектора</div>
+                <p className="mt-1 text-[12px] text-[#475569]">Locked-поля, индикатор «синхронизировано N мин назад».</p>
+                <div className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-[#E0F2FE] bg-[#E0F2FE]/40 px-2.5 py-1.5 text-[11px] text-[#0369A1]">
+                  <RefreshLinear size={13} color="#0EA5E9" />
                   Синхронизировано 2 мин назад · Ozon
                 </div>
-              </div>
+              </Card>
 
-              <div className="rounded-md border border-gray-200 bg-white p-4">
-                <div className="text-xs font-mono text-slate-400 mb-1">
-                  152-ФЗ · masked cell
+              {/* masked */}
+              <Card className="p-4">
+                <div className="mb-1 font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">152-ФЗ · masked cell</div>
+                <div className="text-[13px] font-semibold text-[#0F172A]">Скрыто (152-ФЗ)</div>
+                <p className="mt-1 text-[12px] text-[#475569]">Не «no data», не «—». Явное указание причины.</p>
+                <div className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-[#FEF3C7] bg-[#FEF3C7]/40 px-2.5 py-1.5 font-mono text-[12px] text-[#92400E]">
+                  <LockLinear size={13} color="#D97706" />
+                  Скрыто (152-ФЗ)
                 </div>
-                <div className="text-sm font-medium mb-1">Скрыто (152-ФЗ)</div>
-                <div className="text-xs text-slate-600 mb-3 leading-relaxed">
-                  Не «no data», не «—». Явное указание причины.
-                </div>
-                <div className="font-mono inline-flex items-center gap-1.5 bg-neutral-50 rounded px-2 py-1.5 border border-gray-200" style={{ fontSize: 11 }}>
-                  🔒 Скрыто (152-ФЗ)
-                </div>
-              </div>
+              </Card>
             </div>
           </Section>
 
-          {/* 13. ANTI-PATTERNS */}
+          {/* 14 ANTI-PATTERNS */}
           <Section
             id="anti"
+            num="14"
             title="Anti-patterns"
-            intro="Что не делать. Если в макете встречается что-то из этого списка — переделать."
+            desc="Что не делать. Если в макете встречается что-то из этого списка — переделать."
           >
-            <ul className="space-y-2 text-sm">
+            <Card className="divide-y divide-[#E5E7EB]">
               {[
                 "Большие иллюстрации на empty states. Это рабочий инструмент, не landing.",
-                "Onboarding tour на 20 шагов. Максимум — coach-mark на пустой DataGrid: «Tab для следующей ячейки».",
+                "Onboarding tour на 20 шагов. Максимум — coach-mark на пустом DataGrid: «Tab для следующей ячейки».",
                 "Gamification, streaks, achievements, эмодзи в системных сообщениях.",
                 "AI-значение без ✨ и без provenance-tooltip.",
-                "Sensitive поле без 🔒-иконки или без аудита reveal.",
+                "Sensitive поле без иконки замка или без аудита reveal.",
                 "Reveal по hover вместо клика. Hover не оставляет audit-следа.",
                 "Approval state, который читается только по цвету. Цвет + символ + текст всегда.",
                 "Bounce-springy анимации. Только functional motion (slide-in, fade, sync spinner).",
@@ -987,19 +965,17 @@ export default function TabelDesignSystem({ project }: { project: Project }) {
                 "Терминология «Подпись», «Подписать», «Виза» — это УКЭП по 63-ФЗ, не наш домен.",
                 "Natural-language automation builder в Phase 1. Только визуальный конструктор шагов.",
                 "Универсально-красивый SaaS-стартап лук. Цель — Linear polish + Excel density.",
-              ].map((s, i) => (
-                <li key={i} className="flex gap-3 items-start">
-                  <span className="shrink-0 text-red-600 text-base leading-tight">×</span>
-                  <span className="text-slate-900 leading-relaxed">{s}</span>
-                </li>
+              ].map((line, i) => (
+                <div key={i} className="flex items-start gap-2.5 px-4 py-2.5 text-[12px] leading-[18px] text-[#475569]">
+                  <CloseCircleLinear size={14} color="#DC2626" />
+                  <span>{line}</span>
+                </div>
               ))}
-            </ul>
+            </Card>
           </Section>
 
-          <div className="text-xs text-slate-400 pt-6 border-t border-gray-200">
-            Документ сжат до того, что нужно дизайнеру для UI Kit. Расширенный
-            контекст по бизнесу и архитектуре — в PRD v6.1, product-depth
-            доках, компендиуме и anti-vision документе.
+          <div className="pt-6 text-center font-mono text-[10px] uppercase tracking-wider text-[#94A3B8]">
+            v0.1 · Phase 1 · light only · 2026-05-14
           </div>
         </div>
       </div>
